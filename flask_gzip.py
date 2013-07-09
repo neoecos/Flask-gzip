@@ -15,6 +15,10 @@ class Gzip(object):
 
         if 'gzip' not in accept_encoding.lower():
             return response
+            
+        #: if direct_passthrough len(response.data) will raise RunTimeError    
+        if response.direct_passthrough:
+            return response
 
         if (200 > response.status_code >= 300) or len(response.data) < self.minimum_size or 'Content-Encoding' in response.headers:
             return response
